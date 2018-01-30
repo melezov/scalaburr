@@ -1,3 +1,5 @@
+sudo: false
+
 language: scala
 
 jdk:
@@ -6,10 +8,19 @@ jdk:
 scala:
   - 2.12.4
 
+cache:
+  directories:
+    - $HOME/.ivy2/cache
+    - $HOME/.sbt
+
+before_cache:
+  - find $HOME/.ivy2/cache -name "ivydata-*.properties" -print -delete
+  - find $HOME/.sbt        -name "*.lock"               -print -delete
+
 script:
   - sbt ++$TRAVIS_SCALA_VERSION solver/run
 
 notifications:
   email:
     recipients:
-      - marko.elezovic@oradian.com 
+      - marko.elezovic@oradian.com
